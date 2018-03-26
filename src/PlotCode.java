@@ -3,8 +3,7 @@ import java.util.Arrays;
 
 public class PlotCode {
 	static FalconLinePlot fig3;
-	static int i = 0;
-	static int j = 0;
+	static int i = 0, j = 0;
 	public static void main(String[] args) {
 		fig3 = new FalconLinePlot(new double[][]{{0.0,0.0}});
 		fig3.yGridOn();
@@ -17,7 +16,7 @@ public class PlotCode {
 		fig3.setYTic(0, fieldWidth, 1);
 		generateField();
 		
-	  	String desiredAuto = "CR";
+	  	String desiredAuto = "LR";
 	  	//----------------------------------------------------Place Auto Codes Here--------------------------------------//
 	  	double[][] runAuto;
     	double totalTime;
@@ -76,21 +75,18 @@ public class PlotCode {
 	double timeStep = 0.1; //period of control loop on Rio, seconds
 	double robotTrackWidth = 2.3208333; //distance between left and right wheels, feet
 	
-	//----------------------------------------------------------------------------------------------------------------------//
+		//-------------------------------------------------------------------------------------------------------------------//
 		FalconPathPlanner path = new FalconPathPlanner(runAuto);
 		path.calculate(totalTime, timeStep, robotTrackWidth);
+		System.out.println(Arrays.deepToString(path.smoothLeftVelocity));
 		
 		//-------------------------------------------------------Plotting---------------------------------------------------//
-
 		//waypoint path
 		fig3.addData(path.nodeOnlyPath,Color.blue,Color.green);
-
 		//add all other paths
 		fig3.addData(path.smoothPath, Color.blue, Color.blue);
 		fig3.addData(path.leftPath, Color.red);
 		fig3.addData(path.rightPath, Color.magenta);
-
-
 		//Velocity
 		FalconLinePlot fig4 = new FalconLinePlot(path.smoothCenterVelocity,null,Color.blue);
 		fig4.yGridOn();
@@ -100,8 +96,7 @@ public class PlotCode {
 		fig4.setTitle("Velocity Profile for Left and Right Wheels \n Left = Red, Right = Magenta");
 		fig4.addData(path.smoothRightVelocity, Color.magenta, Color.magenta);
 		fig4.addData(path.smoothLeftVelocity, Color.red, Color.red);
-		
-		System.out.println(Arrays.deepToString(path.smoothLeftVelocity));
+		//------------------------------------------------------------------------------------------------------------------//
 		/*
 		while (!(i>=path.smoothLeftVelocity.length)) {
 			if (i<path.smoothLeftVelocity.length && j%5==0) {
