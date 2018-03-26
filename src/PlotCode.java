@@ -6,28 +6,22 @@ public class PlotCode {
 	static int i = 0;
 	static int j = 0;
 	public static void main(String[] args) {
-		/***Poof Example***/
-		//int i = 0;
-		//Lets create a bank image
 		fig3 = new FalconLinePlot(new double[][]{{0.0,0.0}});
 		fig3.yGridOn();
 		fig3.xGridOn();
 		fig3.setYLabel("Y (feet)");
 		fig3.setXLabel("X (feet)");
 		fig3.setTitle("Top Down View of FRC Field - Blue Alliance (32ft x 27ft) \n shows the left and right wheel trajectories");
-			
-					
-		//force graph to show field dimensions of 30ft x 27 feet
 		double fieldWidth = 27.0;
 		fig3.setXTic(0, 32, 1);
 		fig3.setYTic(0, fieldWidth, 1);
-		
 		generateField();
 		
 	  	String desiredAuto = "CR";
-	  	
-    	double[][] runAuto;
-    	double totalTime; //seconds
+	  	//----------------------------------------------------Place Auto Codes Here--------------------------------------//
+	  	double[][] runAuto;
+    	double totalTime;
+    	
     	switch(desiredAuto) {
     	case "CL" :runAuto = new double[][]{
 				{0,13},
@@ -71,19 +65,22 @@ public class PlotCode {
 				{12, 8},
 				{7, 14},
 				{4, 8}
-		};  totalTime = 10;
+		};  totalTime = 30;
 		break;
 		default: runAuto = new double[][]{
 			{0,23},
 			{12,23},
-	}; totalTime = 1.5;
+	}; totalTime = 4;
     	}
-	
+ 
 	double timeStep = 0.1; //period of control loop on Rio, seconds
 	double robotTrackWidth = 2.3208333; //distance between left and right wheels, feet
 	
+	//----------------------------------------------------------------------------------------------------------------------//
 		FalconPathPlanner path = new FalconPathPlanner(runAuto);
 		path.calculate(totalTime, timeStep, robotTrackWidth);
+		
+		//-------------------------------------------------------Plotting---------------------------------------------------//
 
 		//waypoint path
 		fig3.addData(path.nodeOnlyPath,Color.blue,Color.green);
